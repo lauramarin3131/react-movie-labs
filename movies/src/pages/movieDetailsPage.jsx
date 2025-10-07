@@ -5,6 +5,7 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import React, {useState, useEffect}  from "react";
 import { useParams } from 'react-router';
+import { getMovie, getMovieImages } from "../api/tmdb-api";
 
 const MoviePage = (props) => {
   const { id } = useParams();
