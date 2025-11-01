@@ -13,6 +13,7 @@ import AddMovieReviewPage from './pages/addMovieReviewPage';
 //import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 import UpcomingMoviesPage from "./pages/upcomingMoviePage.jsx";
 import PopularMoviesPage from "./pages/PopularMoviesPage";
+import TopRatedMoviesPage from "./pages/TopRatedMoviesPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,6 +38,7 @@ const App = () => {
             <Route path="/reviews/form" element={<AddMovieReviewPage />} />
             <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
             <Route path="/movies/popular" element={<PopularMoviesPage />} />
+            <Route path="/movies/top-rated" element={<TopRatedMoviesPage />} />
             <Route path="/" element={<HomePage />} />
             <Route path="*" element={ <Navigate to="/" /> } />
           </Routes>
