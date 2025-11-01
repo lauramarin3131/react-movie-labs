@@ -21,8 +21,10 @@ const root = {
 };
 const chip = { margin: 0.5 };
 
-const MovieDetails = ({ movie }) => {  // Don't miss this!
-const [drawerOpen, setDrawerOpen] = useState(false);
+const MovieDetails = ({ movie }) => {  
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  
+  if (!movie) return <p>Loading movie details...</p>;
 
   return (
     <>
@@ -41,31 +43,25 @@ const [drawerOpen, setDrawerOpen] = useState(false);
         <li>
           <Chip label="Genres" sx={{...chip}} color="primary" />
         </li>
-        {movie.genres.map((g) => (
-          <li key={g.name}>
+        {(movie.genres ?? []).map((g)=> (
+          <li key={g.id ?? g.name}>
             <Chip label={g.name} sx={{...chip}} />
           </li>
         ))}
       </Paper>
       <Paper component="ul" sx={{...root}}>
-        <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
-        <Chip
-          icon={<MonetizationIcon />}
-          label={`${movie.revenue.toLocaleString()}`}
-        />
-        <Chip
-          icon={<StarRate />}
-          label={`${movie.vote_average} (${movie.vote_count})`}
-        />
-        <Chip label={`Released: ${movie.release_date}`} />
+        <Chip icon={<AccessTimeIcon />} label={`${movie.runtime ?? 0} min.`} />
+        <Chip icon={<MonetizationIcon />} label={`${(movie.revenue ?? 0).toLocaleString()}`} />
+        <Chip icon={<StarRate />} label={`${movie.vote_average ?? 0} (${movie.vote_count ?? 0})`} />
+        <Chip label={`Released: ${movie.release_date ?? "N/A"}`} />
       </Paper>
       {movie.production_countries && movie.production_countries.length > 0 && (
         <Paper component="ul" sx={{ ...root }}>
           <li>
             <Chip label="Production Countries" sx={{ ...chip }} color="primary" />
           </li>
-          {movie.production_countries.map((c) => (
-            <li key={c.name}>
+          {(movie.production_countries ?? []).map((c) => (
+            <li key= {c.iso_3166_1?? c.name}>
               <Chip label={c.name} sx={{ ...chip }} />
             </li>
           ))}

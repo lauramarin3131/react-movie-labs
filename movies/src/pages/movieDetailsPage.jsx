@@ -15,7 +15,7 @@ const MoviePage = (props) => {
     queryKey: ['movie', {id: id}],
     queryFn: getMovie,
   })
-
+  
   if (isPending) {
     return <Spinner />;
   }
@@ -28,8 +28,8 @@ const MoviePage = (props) => {
     <>
       {movie ? (
         <>
-          <PageTemplate movie={movie}>
-            <MovieDetails movie={movie} />
+          <PageTemplate movie={movie} >
+            <MovieDetails movie={movie}/>
           </PageTemplate>
         </>
       ) : (
