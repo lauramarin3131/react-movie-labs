@@ -17,7 +17,7 @@ import Avatar from '@mui/material/Avatar';
 import React, { useContext  } from "react";
 import { MoviesContext } from "../../contexts/moviesContext";
 
-export default function MovieCard({ movie, action }) {
+export default function MovieCard({ movie, action = () => null }) {
   const { favorites, addToFavorites } = useContext(MoviesContext);
 
   if (favorites.find((id) => id === movie.id)) {
@@ -31,6 +31,17 @@ export default function MovieCard({ movie, action }) {
     addToFavorites(movie);
   };
 
+
+const formattedDate = movie.release_date
+    ? (() => {
+        const d = new Date(movie.release_date);
+        const day = String(d.getDate()).padStart(2, "0");
+        const months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+        const month = months[d.getMonth()] || "";
+        const year = String(d.getFullYear()).slice(-2);
+        return `${day} ${month} ${year}`;
+      })()
+    : "—";
 
   return (
     <Card>
@@ -73,7 +84,7 @@ export default function MovieCard({ movie, action }) {
         </Grid>
       </CardContent>
       <CardActions disableSpacing>
-        {action(movie)}
+        {action && typeof action === 'function' ? action(movie) : null}
         <Link to={`/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...

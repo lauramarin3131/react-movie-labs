@@ -32,9 +32,8 @@ const MoviesContextProvider = (props) => {
 
   const addToMustWatch = (movie) => {
     setMustWatch((prev) => {
-      if (prev.includes(movie.id)) return prev; // evita duplicados
-      const updated = [...prev, movie.id];
-      console.log("Must Watch list:", updated); // ✅ verificación en consola
+      if (prev.includes(movie.id)) return prev;       const updated = [...prev, movie.id];
+      console.log("Must Watch list:", updated); 
       return updated;
     });
   };
