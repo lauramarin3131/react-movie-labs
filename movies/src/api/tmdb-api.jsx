@@ -147,3 +147,11 @@ export const getNowPlayingMovies = () => {
     })
     .then(data => data.results); 
 };
+export const getMovieRecommendations = ({ queryKey }) => {
+  const [, { id }] = queryKey;
+  return fetch(
+    `https://api.themoviedb.org/3/movie/${id}/recommendations?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&page=1`
+  )
+    .then(res => res.json())
+    .then(data => data.results);
+};
