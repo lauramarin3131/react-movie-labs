@@ -16,6 +16,7 @@ import { Link } from "react-router";
 import Avatar from '@mui/material/Avatar';
 import React, { useContext  } from "react";
 import { MoviesContext } from "../../contexts/moviesContext";
+import AddToMustWatchIcon from "../cardIcons/addToMustWatch";
 
 export default function MovieCard({ movie, action = () => null }) {
   const { favorites, addToFavorites } = useContext(MoviesContext);
@@ -85,6 +86,7 @@ const formattedDate = movie.release_date
       </CardContent>
       <CardActions disableSpacing>
         {action && typeof action === 'function' ? action(movie) : null}
+        <AddToMustWatchIcon movie={movie} /> 
         <Link to={`/movies/${movie.id}`}>
           <Button variant="outlined" size="medium" color="primary">
             More Info ...
