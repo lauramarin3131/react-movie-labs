@@ -3,6 +3,8 @@ import Header from "../headerMovieList";
 import FilterCard from "../filterMoviesCard";
 import MovieList from "../movieList";
 import Grid from "@mui/material/Grid";
+import Pagination from "@mui/material/Pagination";
+import Box from "@mui/material/Box";
 
 function MovieListPageTemplate({ movies, title, action }) {
   const [nameFilter, setNameFilter] = useState("");
@@ -11,7 +13,8 @@ function MovieListPageTemplate({ movies, title, action }) {
   const [yearTo, setYearTo] = useState("");
   const [minRating, setMinRating] = useState("");
   const [sortBy, setSortBy] = useState("");
-  
+  const [page, setPage] = useState(1); 
+   const moviesPerPage = 8; 
   const genreId = Number(genreFilter);
 
   let displayedMovies = movies
@@ -38,8 +41,13 @@ function MovieListPageTemplate({ movies, title, action }) {
     }
     return 0;
   });
-
+  const pageCount = Math.ceil(displayedMovies.length / moviesPerPage);
+  const moviesToShow = displayedMovies.slice(
+    (page - 1) * moviesPerPage,
+    page * moviesPerPage
+  );
   const handleChange = (type, value) => {
+    setPage(1);
     if (type === "name") setNameFilter(value);
     else if (type === "genre") setGenreFilter(value);
     else if (type === "yearFrom") setYearFrom(value);
@@ -47,29 +55,47 @@ function MovieListPageTemplate({ movies, title, action }) {
     else if (type === "minRating") setMinRating(value);
     else if (type === "sortBy") setSortBy(value);
   };
-
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
   return (
     <Grid container>
       <Grid size={12}>
         <Header title={title} />
       </Grid>
-      <Grid container sx={{flex: "1 1 500px"}}>
-        <Grid 
-          key="find" 
-          size={{xs: 12, sm: 6, md: 4, lg: 3, xl: 2}} 
-          sx={{padding: "20px"}}
+
+      <Grid >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            mb: 2,
+          }}
         >
-          <FilterCard
-            onUserInput={handleChange}
-            titleFilter={nameFilter}
-            genreFilter={genreFilter}
-            yearFrom={yearFrom}
-            yearTo={yearTo}
-            minRating={minRating}
-            sortBy={sortBy}
-          />
+          <Box sx={{display: "flex", justifyContent: "center",minWidth: 400, mb: 2, maxWidth: 1200 }}>
+            <FilterCard
+              onUserInput={handleChange}
+              titleFilter={nameFilter}
+              genreFilter={genreFilter}
+              yearFrom={yearFrom}
+              yearTo={yearTo}
+              minRating={minRating}
+              sortBy={sortBy}
+            />
+          </Box>
+        </Box>  
+      
+        <Grid container>
+          <MovieList action={action} movies={moviesToShow}></MovieList>
         </Grid>
-          <MovieList action={action} movies={displayedMovies}></MovieList>
+        <Box sx={{ display: "flex", justifyContent: "center", m: 4 }}>
+        <Pagination
+          count={pageCount}
+          page={page}
+          onChange={handlePageChange}
+          color="primary"
+        />
+      </Box>
       </Grid>
     </Grid>
   );

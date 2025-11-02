@@ -33,19 +33,19 @@ export default function MovieCard({ movie, action = () => null }) {
   };
 
 
-const formattedDate = movie.release_date
-    ? (() => {
-        const d = new Date(movie.release_date);
-        const day = String(d.getDate()).padStart(2, "0");
-        const months = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
-        const month = months[d.getMonth()] || "";
-        const year = String(d.getFullYear()).slice(-2);
-        return `${day} ${month} ${year}`;
-      })()
-    : "—";
-
   return (
-    <Card>
+    <Card
+      sx={{
+        borderRadius: 3,             
+        boxShadow: 4,
+        overflow: "hidden",
+        transition: "transform 0.3s, box-shadow 0.3s",
+        "&:hover": {
+          transform: "scale(1.03)",  
+          boxShadow: 8,              
+        },
+      }}
+    >
       <CardHeader
         avatar={
           movie.favorite ? (
@@ -61,7 +61,7 @@ const formattedDate = movie.release_date
         }
       />
       <CardMedia
-        sx={{ height: 500 }}
+        sx={{ height: 500, borderRadius: 2 }}
         image={
           movie.poster_path
             ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`

@@ -18,7 +18,10 @@ const formControl =
   {
     margin: 1,
     minWidth: "90%",
-    backgroundColor: "rgb(255, 255, 255)"
+    borderRadius: 1,
+    "& .MuiInputBase-root": {
+      backgroundColor: "#fff1f1ff", 
+    },
   };
 
 export default function FilterMoviesCard(props) {
@@ -57,48 +60,63 @@ export default function FilterMoviesCard(props) {
   return (
     <Card 
       sx={{
-        backgroundColor: "rgb(204, 204, 0)"
+        minHeight: 120,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: "#b0dfd7ff", 
+        p: 2,
+        borderRadius: 2,
+        boxShadow: 3,
+        flexShrink: 0
       }} 
       variant="outlined">
-      <CardContent>
+      <CardContent sx={{ flex: 1, display: "flex", flexDirection: "column", gap: 1,alignItems: "center",flexWrap: "wrap" }}>
         <Typography variant="h5" component="h1">
           <SearchIcon fontSize="large" />
           Filter the movies.
         </Typography>
         <TextField
-            sx={{...formControl}}
+            size="small"
+            sx={{...formControl, width: 200}}
             id="filled-search"
             label="Search field"
             type="search"
-            variant="filled"
+            variant="outlined"
             value={props.titleFilter}
             onChange={handleTextChange}
         />
         <TextField
-          sx={{ ...formControl }}
+          size="small"
+          sx={{ ...formControl, width: 200 }}
           label="Year From"
           type="number"
+          variant="outlined"
           value={props.yearFrom || ""}
           onChange={(e) => handleChange(e, "yearFrom", e.target.value)}
         />
         <TextField
-          sx={{ ...formControl }}
+          size="small"
+          sx={{ ...formControl, width: 200}}
           label="Year To"
           type="number"
+          variant="outlined"
           value={props.yearTo || ""}
           onChange={(e) => handleChange(e, "yearTo", e.target.value)}
         />
         <TextField
-          sx={{ ...formControl }}
+          size="small"
+          sx={{ ...formControl,width: 200 }}
           label="Min Rating"
           type="number"
-          inputProps={{ step: 0.1, min: 0, max: 10 }}
+          variant="outlined"
           value={props.minRating || ""}
           onChange={(e) => handleChange(e, "minRating", e.target.value)}
         />
         <FormControl sx={{...formControl}}>
           <InputLabel id="genre-label">Genre</InputLabel>
           <Select
+            size="small"
             labelId="genre-label"
             id="genre-select"
             defaultValue=""
@@ -117,6 +135,7 @@ export default function FilterMoviesCard(props) {
         <FormControl sx={{ ...formControl }}>
           <InputLabel id="sort-label">Sort By</InputLabel>
           <Select
+            size="small"
             labelId="sort-label"
             id="sort-select"
             value={props.sortBy || ""}
@@ -129,17 +148,10 @@ export default function FilterMoviesCard(props) {
         </FormControl>        
       </CardContent>
       <CardMedia
-        sx={{ height: 300 }}
+        sx={{  width: 150, height: 80,objectFit: "cover", borderRadius: 1, ml: 2, flexShrink: 0 }}
         image={img}
         title="Filter"
       />
-      <CardContent>
-        <Typography variant="h5" component="h1">
-          <SearchIcon fontSize="large" />
-          Filter the movies.
-          <br />
-        </Typography>
-      </CardContent>
     </Card>
   );
 }
