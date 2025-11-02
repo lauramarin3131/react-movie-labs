@@ -7,6 +7,11 @@ import Grid from "@mui/material/Grid";
 function MovieListPageTemplate({ movies, title, action }) {
   const [nameFilter, setNameFilter] = useState("");
   const [genreFilter, setGenreFilter] = useState("0");
+  const [yearFrom, setYearFrom] = useState("");
+  const [yearTo, setYearTo] = useState("");
+  const [minRating, setMinRating] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  
   const genreId = Number(genreFilter);
 
   let displayedMovies = movies
@@ -15,11 +20,32 @@ function MovieListPageTemplate({ movies, title, action }) {
     })
     .filter((m) => {
       return genreId > 0 ? m.genre_ids.includes(genreId) : true;
-    });
+    })
+    .filter((m) =>{
+      const year = m.release_date?.slice(0, 4);
+      if (yearFrom && year < yearFrom) return false;
+      if (yearTo && year > yearTo) return false;
+      return true;
+    })
+    .filter((m) =>{
+       return minRating ? m.vote_average >= Number(minRating) : true;
+    })
+    .sort((a, b) => {
+    if (sortBy === "year") {
+      return (b.release_date || "").localeCompare(a.release_date || "");
+    } else if (sortBy === "rating") {
+      return b.vote_average - a.vote_average;
+    }
+    return 0;
+  });
 
   const handleChange = (type, value) => {
     if (type === "name") setNameFilter(value);
-    else setGenreFilter(value);
+    else if (type === "genre") setGenreFilter(value);
+    else if (type === "yearFrom") setYearFrom(value);
+    else if (type === "yearTo") setYearTo(value);
+    else if (type === "minRating") setMinRating(value);
+    else if (type === "sortBy") setSortBy(value);
   };
 
   return (
@@ -37,6 +63,10 @@ function MovieListPageTemplate({ movies, title, action }) {
             onUserInput={handleChange}
             titleFilter={nameFilter}
             genreFilter={genreFilter}
+            yearFrom={yearFrom}
+            yearTo={yearTo}
+            minRating={minRating}
+            sortBy={sortBy}
           />
         </Grid>
           <MovieList action={action} movies={displayedMovies}></MovieList>

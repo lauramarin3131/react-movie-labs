@@ -74,7 +74,28 @@ export default function FilterMoviesCard(props) {
             value={props.titleFilter}
             onChange={handleTextChange}
         />
-
+        <TextField
+          sx={{ ...formControl }}
+          label="Year From"
+          type="number"
+          value={props.yearFrom || ""}
+          onChange={(e) => handleChange(e, "yearFrom", e.target.value)}
+        />
+        <TextField
+          sx={{ ...formControl }}
+          label="Year To"
+          type="number"
+          value={props.yearTo || ""}
+          onChange={(e) => handleChange(e, "yearTo", e.target.value)}
+        />
+        <TextField
+          sx={{ ...formControl }}
+          label="Min Rating"
+          type="number"
+          inputProps={{ step: 0.1, min: 0, max: 10 }}
+          value={props.minRating || ""}
+          onChange={(e) => handleChange(e, "minRating", e.target.value)}
+        />
         <FormControl sx={{...formControl}}>
           <InputLabel id="genre-label">Genre</InputLabel>
           <Select
@@ -93,6 +114,19 @@ export default function FilterMoviesCard(props) {
             })}
           </Select>
         </FormControl>
+        <FormControl sx={{ ...formControl }}>
+          <InputLabel id="sort-label">Sort By</InputLabel>
+          <Select
+            labelId="sort-label"
+            id="sort-select"
+            value={props.sortBy || ""}
+            onChange={(e) => props.onUserInput("sortBy", e.target.value)}
+          >
+            <MenuItem value="">None</MenuItem>
+            <MenuItem value="year">Year</MenuItem>
+            <MenuItem value="rating">Rating</MenuItem>
+          </Select>
+        </FormControl>        
       </CardContent>
       <CardMedia
         sx={{ height: 300 }}
