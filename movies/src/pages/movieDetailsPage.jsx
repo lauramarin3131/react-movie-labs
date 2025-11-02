@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query';
 import Spinner from '../components/spinner'
 // import useMovie from "../hooks/useMovie";   Redundant
 import { getMovieRecommendations} from '../api/tmdb-api';
+import { getMovieCredits } from "../api/tmdb-api";
 
 
 const MoviePage = (props) => {
@@ -20,6 +21,11 @@ const MoviePage = (props) => {
     queryKey: ['recommendations', { id }],
     queryFn: getMovieRecommendations,
   });
+  const { data: credits } = useQuery({
+  queryKey: ['credits', { id }],
+  queryFn: getMovieCredits,
+  });
+
   if (isPending) {
     return <Spinner />;
   }
@@ -43,7 +49,19 @@ const MoviePage = (props) => {
                 ))}
               </ul>
             </>
-          )}
+            )}
+            {credits && credits.cast && credits.cast.length > 0 && (
+              <div style={{ padding: "1rem" }}>
+                <h3>Cast</h3>
+                <ul>
+                  {credits.cast.slice(0, 10).map((actor) => (
+                    <li key={actor.id}>
+                      {actor.name} as {actor.character}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </PageTemplate>
         </>
       ) : (
