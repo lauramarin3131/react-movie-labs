@@ -8,6 +8,7 @@ import Spinner from '../components/spinner'
 // import useMovie from "../hooks/useMovie";   Redundant
 import { getMovieRecommendations} from '../api/tmdb-api';
 import { getMovieCredits } from "../api/tmdb-api";
+import MovieCredits from "../components/movieCredits";
 
 
 const MoviePage = (props) => {
@@ -40,28 +41,18 @@ const MoviePage = (props) => {
         <>
           <PageTemplate movie={movie} >
             <MovieDetails movie={movie}/>
-            {recommendations && recommendations.length > 0 && (
-            <>
-              <h3>Recommended Movies</h3>
-              <ul>
-                {recommendations.slice(0, 5).map((rec) => (
-                  <li key={rec.id}>{rec.title}</li>
-                ))}
-              </ul>
-            </>
-            )}
-            {credits && credits.cast && credits.cast.length > 0 && (
-              <div style={{ padding: "1rem" }}>
-                <h3>Cast</h3>
+              {recommendations && recommendations.length > 0 && (
+              <>
+                <h3>Recommended Movies</h3>
                 <ul>
-                  {credits.cast.slice(0, 10).map((actor) => (
-                    <li key={actor.id}>
-                      {actor.name} as {actor.character}
-                    </li>
+                  {recommendations.slice(0, 5).map((rec) => (
+                    <li key={rec.id}>{rec.title}</li>
                   ))}
                 </ul>
-              </div>
-            )}
+              </>
+              )}
+              
+            <MovieCredits movieId={movie.id} />
           </PageTemplate>
         </>
       ) : (
